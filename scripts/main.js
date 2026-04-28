@@ -1,3 +1,4 @@
+import {monthes, render, saveState,RENDER_TYPES} from './init.js';
 /*************** MAIN MENU *************/
 const menuBar = document.getElementById('menu-bar');
 const btnOpenMenu = document.getElementById('open-menu-btn');
@@ -12,4 +13,17 @@ btnCloseMenu.addEventListener('click', () => {
 });
 
 /************** SET PERIOD OF TIME **************/
-const periodInfo = document.getElementById('period-info');
+const pMonth = document.getElementById('p-month');
+const pYear = document.getElementById('p-year');
+
+pMonth.addEventListener('change', setPeriod);
+pYear.addEventListener('change', setPeriod);
+
+function setPeriod() {
+  const periodOfTime = {
+    selectedMonth: monthes[pMonth.value],
+    selectedYear: pYear.value,
+  }
+  saveState(periodOfTime);
+  render(RENDER_TYPES.Header);
+}

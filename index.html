@@ -15,16 +15,16 @@
     <div class="menu__sections">
       <div class="navigation__wrapper">
         <div class="menu__title">Navigation</div>
-        <button class="navigation__btn active"><span>📁</span> Projects</button>
-        <button class="navigation__btn"><span>👥</span> Employees</button>
+        <button data-type="projects" class="navigation__btn active"><span>📁</span> Projects</button>
+        <button data-type="employees" class="navigation__btn"><span>👥</span> Employees</button>
       </div>
     </div>
 
   <div class="menu__footer">
     <div class="menu__title">Period</div>
     <div class="period__wrapper">
-      <select id="p-month" class="period-month"></select>
-      <select id="p-year" class="period-year"></select>
+      <select id="p-month" class="period-month" onchange="setPeriod()"></select>
+      <select id="p-year" class="period-year" onchange="setPeriod()"></select>
     </div>
   </div>
 </aside>
@@ -50,6 +50,6 @@
   </div>
 </main>
 <script src="./scripts/init.js" type="module"></script>
-<script src="./scripts/main.js"></script>
+<script src="./scripts/main.js" type="module"></script>
 </body>
 </html>
