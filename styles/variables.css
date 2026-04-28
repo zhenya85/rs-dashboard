@@ -1,0 +1,32 @@
+/********* COLORS **********/
+:root {
+  --bg: #0c0e14;
+  --bg-card: #11141e;
+  --bg-card2: #181c2a;
+  --gray: rgba(255, 255, 255, 0.03);
+  --border-gray: rgba(255, 255, 255, 0.07);
+  --bdr-h: rgba(255, 255, 255, 0.14);
+  --txt: #dde1f0;
+  --menu-text-color: #6b7490;
+  --txt-d: #9aa0ba;
+  --violet: #7c6af7;
+  --active-btn: rgba(124, 106, 247, 0.15);
+  --violet-light: #a899ff;
+  --gr: #22c55e;
+  --gr-bg: rgba(34, 197, 94, 0.1);
+  --rd: #f43f5e;
+  --rd-bg: rgba(244, 63, 94, 0.1);
+  --am: #f59e0b;
+  --am-bg: rgba(245, 158, 11, 0.1);
+  --bl: #3b82f6;
+  --bl-bg: rgba(59, 130, 246, 0.1);
+  --r: 12px;
+  --small-radius: 8px;
+  --f-Sans: 'DM Sans', system-ui, sans-serif;
+  --f-Mono: 'DM Mono', monospace;
+}
+/********* VARIABLES *********/
+:root {
+  --menu-size: 230px;
+  --header-size: 54px;
+}
