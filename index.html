@@ -6,13 +6,34 @@
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-<aside id="menu-bar" class="menu"></aside>
-<button class="menu-open__button">></button>
+<aside id="menu-bar" class="menu">
+  <div class="logo">
+    <div class="logo-icon">PD</div>
+    <span class="logo-text">Personal<span>Dashboard</span></span>
+    <button class="menu-close__button" id="menu-close" title="Свернуть">X</button>
+  </div>
+    <div class="menu__sections">
+      <div class="navigation__wrapper">
+        <div class="menu__title">Navigation</div>
+        <button class="navigation__btn active"><span>📁</span> Projects</button>
+        <button class="navigation__btn"><span>👥</span> Employees</button>
+      </div>
+    </div>
+
+  <div class="menu__footer">
+    <div class="menu__title">Period</div>
+    <div class="period__wrapper">
+      <select id="p-month" class="period-month"></select>
+      <select id="p-year" class="period-year"></select>
+    </div>
+  </div>
+</aside>
+<button id="open-menu-btn" class="menu-open__button">></button>
 <main>
   <header class="top__bar">
-    <div class="title"></div>
-    <div class="period__info">
-
+    <div class="title">Control panel</div>
+    <div id="period-info" class="period__info">
+      Апрель 2026
     </div>
   </header>
   <div class="dashboard">
@@ -28,6 +49,7 @@
     </section>
   </div>
 </main>
-
+<script src="./scripts/init.js" type="module"></script>
+<script src="./scripts/main.js"></script>
 </body>
 </html>
