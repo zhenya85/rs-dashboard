@@ -36,6 +36,8 @@ render();
 
 
 /************* TODO: ALL Functions ************/
+
+
 function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`

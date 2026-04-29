@@ -43,3 +43,8 @@ navButtons.forEach(btn=>{
     })
   });
 });
+
+/************** FUNCTIONS **************/
+function formatPrice(number, symbol = '$') {
+  return `${symbol} ` + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
