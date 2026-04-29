@@ -342,8 +342,11 @@ main {
   }
 }
 /************* DASHBOARD PROJECT DATA **************/
-.dashboard_hide{
+.dashboard__wrapper{
   display: none;
+}
+.dashboard_active{
+  display: block;
 }
 .projects__wrapper,
 .employees__wrapper{
@@ -385,7 +388,7 @@ main {
 }
 .empty__positions td{
   text-align: center;
-  padding: 40px 24px;
+  padding: 60px 24px;
   color: var(--text1);
   .empty__icon{
     font-size: 28px;

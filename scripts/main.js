@@ -27,3 +27,19 @@ function setPeriod() {
   saveState(periodOfTime);
   render(RENDER_TYPES.Header);
 }
+
+/************** NAVIGATION ACTIONS **************/
+const navButtons = document.querySelectorAll('.navigation__btn');
+const wDashboard = document.querySelectorAll('.dashboard__wrapper');
+navButtons.forEach(btn=>{
+  btn.addEventListener('click', (e) => {
+    document.querySelector('.active').classList.remove('active');
+    e.target.classList.add('active');
+    document.querySelector('.dashboard_active').classList.remove('dashboard_active');
+    wDashboard.forEach(dItem=>{
+      if(dItem.dataset.type === e.target.dataset.type){
+        dItem.classList.add('dashboard_active');
+      }
+    })
+  });
+});
