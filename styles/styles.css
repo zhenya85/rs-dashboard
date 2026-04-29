@@ -69,6 +69,7 @@ body {
 
 .menu.menu_open ~ main {
   margin-left: var(--menu-size);
+  padding-left: 0;
 }
 
 .menu .logo {
@@ -237,13 +238,13 @@ main {
 .info{
   display: flex;
   gap: 10px;
-
+  margin-bottom: 20px;
 }
 .info-item{
   flex: 1;
   background: var(--bg-card);
   border: 1px solid var(--border-gray);
-  border-radius: var(--r);
+  border-radius: var(--radius);
   padding: 16px 18px;
   transition: border-color .15s;
 }
@@ -295,8 +296,112 @@ main {
     border-radius: 4px;
   }
 }
-/************* DASHBOARD DATA **************/
+/************* DASHBOARD PANEL **************/
+.panel{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.panel-info{
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.3px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  span{
+    font-size: 11px;
+    color: var(--text1);
+    background: var(--bg-card2);
+    padding: 1px 7px;
+    border-radius: 10px;
+    border: 1px solid var(--border-gray);
+    font-weight: 400;
+  }
+}
+
+.panel-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-family: var(--f-Sans), serif;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--small-radius);
+  cursor: pointer;
+  transition: all .12s;
+  border: none;
+  white-space: nowrap;
+  background: var(--violet);
+  color: #fff;
+  &:hover{
+    background: var(--violet-light);
+  }
+}
+/************* DASHBOARD PROJECT DATA **************/
+.dashboard_hide{
+  display: none;
+}
+.projects__wrapper{
+  background: var(--bg-card);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
 .dashboard__data {
   width: 100%;
   border-collapse: collapse;
+  font-size: 12.5px;
+  th{
+    padding: 9px 13px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--text1);
+    border-bottom: 1px solid var(--border-gray);
+    background: var(--bg-card2);
+    white-space: nowrap;
+    user-select: none;
+    button {
+      background: none;
+      border: none;
+      color: var(--text1);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0;
+      line-height: 1;
+      transition: color .12s;
+      &:hover{
+        color: var(--violet-light);
+      }
+    }
+  }
+}
+.project__empty td{
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--text1);
+  .empty__icon{
+    font-size: 28px;
+    margin-bottom: 9px;
+    opacity: .35;
+  }
+  .empty__description{
+    font-size: 15px;
+  }
+}
+.projects__background{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  min-height: 8px;
+  padding: 11px 18px;
+  border-top: 1px solid var(--border-gray);
+  background: var(--bg-card2);
 }

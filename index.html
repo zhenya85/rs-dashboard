@@ -79,7 +79,69 @@
         </div>
       </div>
     </section>
-    <section class="dashboard__wrapper">
+    <section data-type="projects" class="dashboard__wrapper">
+      <div class="panel">
+        <div class="panel-info">Projects <span>0</span></div>
+        <button class="panel-btn">+ Add project</button>
+      </div>
+      <div class="filter-panel"></div>
+      <div class="projects__wrapper">
+        <table class="dashboard__data">
+          <thead>
+          <tr>
+            <th>
+              Company
+              <button class="project-sort" data-category="company">⇅</button>
+              <button class="project-find" data-category="company">⌕</button>
+            </th>
+            <th>
+              Project
+              <button class="project-sort" data-category="project">⇅</button>
+              <button class="project-find" data-category="project">⌕</button>
+            </th>
+            <th>
+              Budget
+              <button class="project-sort" data-category="budget">⇅</button>
+            </th>
+            <th>
+              Capacity
+              <button class="project-sort" data-category="capacity">⇅</button>
+            </th>
+            <th>
+              Employees
+            </th>
+            <th>
+              Income
+              <button class="project-sort" data-category="income">⇅</button>
+            </th>
+            <th>
+              Actions
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="project__empty">
+            <td colspan="7">
+              <div class="empty__icon">📁</div>
+              <div class="empty__description">
+                There are no projects yet. Be the first to add one!
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="projects__background"></div>
+      </div>
+    </section>
+
+
+    <section data-type="employees" class="dashboard__wrapper dashboard_hide">
+      <div class="panel">
+        <div class="panel-info">Projects <span>0</span></div>
+        <button class="panel-btn">+ Add project</button>
+      </div>
+      <div class="filter-panel"></div>
       <table class="dashboard__data">
         <tr>
           <td></td>

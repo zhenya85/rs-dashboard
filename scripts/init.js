@@ -26,7 +26,11 @@ pYear.insertAdjacentHTML("beforeend", years.reduce((acc, year) => {
 saveState({
   selectedMonth: monthes[realMonth],
   selectedYear: realYear,
-  openPage: "projects"
+  openPage: "projects",
+  filters: {
+    projects: {},
+    employees: {}
+  }
 });
 render();
 

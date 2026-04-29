@@ -20,7 +20,7 @@
   --am-bg: rgba(245, 158, 11, 0.1);
   --bl: #3b82f6;
   --bl-bg: rgba(59, 130, 246, 0.1);
-  --r: 12px;
+  --radius: 12px;
   --small-radius: 8px;
   --f-Sans: 'DM Sans', system-ui, sans-serif;
   --f-Mono: 'DM Mono', monospace;
