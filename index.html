@@ -121,7 +121,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="project__empty">
+          <tr class="empty__positions">
             <td colspan="7">
               <div class="empty__icon">📁</div>
               <div class="empty__description">
@@ -136,19 +136,68 @@
     </section>
 
 
-    <section data-type="employees" class="dashboard__wrapper dashboard_hide">
+    <section data-type="employees" class="dashboard__wrapper">
       <div class="panel">
-        <div class="panel-info">Projects <span>0</span></div>
-        <button class="panel-btn">+ Add project</button>
+        <div class="panel-info">Employees <span>0</span></div>
+        <button class="panel-btn">+ Add employee</button>
       </div>
       <div class="filter-panel"></div>
-      <table class="dashboard__data">
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
+      <div class="employees__wrapper">
+        <table class="dashboard__data">
+          <thead>
+          <tr>
+            <th>
+              Name
+              <button class="employees-sort" data-category="name">⇅</button>
+              <button class="employees-find" data-category="name">⌕</button>
+            </th>
+            <th>
+              Surname
+              <button class="employees-sort" data-category="surname">⇅</button>
+              <button class="employees-find" data-category="surname">⌕</button>
+            </th>
+            <th>
+              Age
+              <button class="employees-sort" data-category="age">⇅</button>
+            </th>
+            <th>
+              Job title
+              <button class="employees-sort" data-category="jobTitle">⇅</button>
+              <button class="employees-find" data-category="jobTitle">⌕</button>
+            </th>
+            <th>
+              Salary
+              <button class="employees-sort" data-category="salary">⇅</button>
+            </th>
+            <th>
+              Pay
+              <button class="employees-sort" data-category="pay">⇅</button>
+            </th>
+            <th>
+              Project
+            </th>
+            <th>
+              Income
+              <button class="employees-sort" data-category="income">⇅</button>
+            </th>
+            <th>
+              Actions
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="empty__positions">
+            <td colspan="9">
+              <div class="empty__icon">👥</div>
+              <div class="empty__description">
+                There are no employees. Add the first one!
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 </main>
