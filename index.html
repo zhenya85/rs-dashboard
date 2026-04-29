@@ -12,13 +12,13 @@
     <span class="logo-text">Personal<span>Dashboard</span></span>
     <button class="menu-close__button" id="menu-close" title="Свернуть">X</button>
   </div>
-    <div class="menu__sections">
-      <div class="navigation__wrapper">
-        <div class="menu__title">Navigation</div>
-        <button data-type="projects" class="navigation__btn active"><span>📁</span> Projects</button>
-        <button data-type="employees" class="navigation__btn"><span>👥</span> Employees</button>
-      </div>
+  <div class="menu__sections">
+    <div class="navigation__wrapper">
+      <div class="menu__title">Navigation</div>
+      <button data-type="projects" class="navigation__btn active"><span>📁</span> Projects</button>
+      <button data-type="employees" class="navigation__btn"><span>👥</span> Employees</button>
     </div>
+  </div>
 
   <div class="menu__footer">
     <div class="menu__title">Period</div>
@@ -37,7 +37,48 @@
     </div>
   </header>
   <div class="dashboard">
-    <section class="info"></section>
+    <section class="info">
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Projects</span>
+          <span class="head-icon">📁</span>
+        </div>
+        <div class="info-item__main">0</div>
+        <div class="info-item__footer">
+          Budget: <span>$ 0</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Employees</span>
+          <span class="head-icon">👥</span>
+        </div>
+        <div class="info-item__main">0</div>
+        <div class="info-item__footer">
+          Assigned: <span>0</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">FOT</span>
+          <span class="head-icon">💰</span>
+        </div>
+        <div class="info-item__main">$ 0</div>
+        <div class="info-item__footer">
+          Per month
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Estimated income</span>
+          <span class="head-icon">📈</span>
+        </div>
+        <div class="info-item__main green">$ 0</div>
+        <div class="info-item__footer">
+          For the period
+        </div>
+      </div>
+    </section>
     <section class="dashboard__wrapper">
       <table class="dashboard__data">
         <tr>
