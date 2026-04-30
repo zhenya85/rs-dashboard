@@ -435,9 +435,12 @@ main {
   background: var(--bg-card);
   border-left: 1px solid var(--border-gray);
   z-index: 300;
-  display: flex;
+  display: none;
   flex-direction: column;
   transition: right .22s cubic-bezier(.4, 0, .2, 1);
+}
+.ad-panel_active{
+  display: flex;
 }
 .panel__header{
   display: flex;
@@ -469,6 +472,18 @@ main {
 }
 .field__wrapper{
   margin-bottom: 16px;
+  select {
+    width: stretch;
+    background: var(--bg-card2);
+    border: 1px solid var(--border-gray);
+    color: var(--txt);
+    font-family: var(--f-Sans), serif;
+    font-size: 13px;
+    padding: 8px 11px;
+    border-radius: var(--small-radius);
+    outline: none;
+    transition: border-color .15s;
+  }
 }
 .field__title{
   font-size: 10px;
