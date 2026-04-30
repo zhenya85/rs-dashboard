@@ -53,11 +53,11 @@ document.querySelectorAll('.panel-btn').forEach(btn => {
   })
 })
 function openAddPanel(typeTmp) {
+  const addPanel = document.getElementById('add-panel');
   document.getElementById('p-background').classList.add('pb_active');
-  document.getElementById('add-panel').classList.add('ad-panel_active');
+  addPanel.classList.add('ad-panel_active');
 
   const template = typeTmp === 'project' ? addProject : addEmployee;
-  const addPanel = document.getElementById('add-panel');
   addPanel.innerHTML = '';
   let panelTmp = '';
   panelTmp += `
@@ -70,7 +70,7 @@ function openAddPanel(typeTmp) {
   template.fields.forEach(field => {
     panelTmp += `
       <div class="field__wrapper">
-        <label for="project-name" class="field__title">${field.label}</label>
+        <div class="field__title">${field.label}</div>
     `;
     if (field.fieldType !== 'select') {
       panelTmp += `
@@ -99,13 +99,16 @@ function openAddPanel(typeTmp) {
   </div>    
   `;
   addPanel.insertAdjacentHTML('beforeend', panelTmp);
+  closeAddPanel();
+
+}
+function closeAddPanel() {
   document.querySelectorAll('.pc_button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelector('.pb_active').classList.remove('pb_active');
-      document.querySelector('.ad-panel_active').classList.remove('ad-panel_active');
+    btn.addEventListener('click', (e) => {
+      document.getElementById('p-background').classList.remove('pb_active');
+      document.getElementById('add-panel').classList.remove('ad-panel_active');
     })
   })
-
 }
 
 
