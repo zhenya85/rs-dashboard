@@ -409,3 +409,132 @@ main {
   border-top: 1px solid var(--border-gray);
   background: var(--bg-card2);
 }
+
+/************* PANEL ****************/
+.panel__background{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.7);;
+  backdrop-filter: blur(4px);
+}
+.pb_active{
+  display: block;
+}
+.add-data__panel{
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  bottom: 0;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-gray);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  transition: right .22s cubic-bezier(.4, 0, .2, 1);
+}
+.panel__header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-gray);
+}
+.panel__title{
+  font-size: 15px;
+  font-weight: 600;
+}
+.panel_close{
+  background: none;
+  border: none;
+  color: var(--text1);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  &:hover{
+    color: var(--txt);
+  }
+}
+.panel__body{
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+.field__wrapper{
+  margin-bottom: 16px;
+}
+.field__title{
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text1);
+  margin-bottom: 5px;
+  display: block;
+}
+.field__input{
+  width: stretch;
+  background: var(--bg-card2);
+  border: 1px solid var(--border-gray);
+  color: var(--txt);
+  font-family: var(--f-Sans), serif;
+  font-size: 13px;
+  padding: 8px 11px;
+  border-radius: var(--small-radius);
+  outline: none;
+  transition: border-color .15s;
+}
+.input_invalid{
+  border-color: var(--red);
+}
+.field__validation{
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 3px;
+  display: none;
+}
+.panel__footer{
+  padding: 14px 22px;
+  border-top: 1px solid var(--border-gray);
+  display: flex;
+  gap: 7px;
+  justify-content: flex-end;
+}
+.fpanel__button{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-family: var(--f-Sans), serif;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--small-radius);
+  cursor: pointer;
+  transition: all .12s;
+  border: none;
+  white-space: nowrap;
+}
+.btn-cancel{
+  background: transparent;
+  border: 1px solid var(--border-gray);
+  color: var(--text2);
+  &:hover{
+    border-color: var(--bdr-h);
+    color: var(--txt);
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+.btn-add{
+  background: var(--violet);
+  color: #fff;
+  &:hover{
+    background: var(--violet-light);
+  }
+}
