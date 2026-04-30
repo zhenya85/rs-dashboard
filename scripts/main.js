@@ -55,7 +55,6 @@ document.querySelectorAll('.panel-btn').forEach(btn => {
 function openAddPanel(typeTmp) {
   document.getElementById('p-background').classList.add('pb_active');
   document.getElementById('add-panel').classList.add('ad-panel_active');
-  // pBack.classList.add('p-back_open');
 
   const template = typeTmp === 'project' ? addProject : addEmployee;
   const addPanel = document.getElementById('add-panel');
