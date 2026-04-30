@@ -1,7 +1,7 @@
 import {monthes, render, saveState, RENDER_TYPES} from './init.js';
 import {addProject, addEmployee} from './panel-data.js';
 
-/*************** MAIN MENU *************/
+/*************** TODO: MAIN MENU *************/
 const menuBar = document.getElementById('menu-bar');
 const btnOpenMenu = document.getElementById('open-menu-btn');
 const btnCloseMenu = document.getElementById('menu-close');
@@ -14,7 +14,7 @@ btnCloseMenu.addEventListener('click', () => {
 
 });
 
-/************** SET PERIOD OF TIME **************/
+/************** TODO: SET PERIOD OF TIME **************/
 const pMonth = document.getElementById('p-month');
 const pYear = document.getElementById('p-year');
 
@@ -30,7 +30,7 @@ function setPeriod() {
   render(RENDER_TYPES.Header);
 }
 
-/************** NAVIGATION ACTIONS **************/
+/************** TODO: NAVIGATION ACTIONS **************/
 const navButtons = document.querySelectorAll('.navigation__btn');
 const wDashboard = document.querySelectorAll('.dashboard__wrapper');
 navButtons.forEach(btn => {
@@ -46,7 +46,7 @@ navButtons.forEach(btn => {
   });
 });
 
-/************** ADD PANEL **************/
+/************** TODO: ADD PANEL **************/
 document.querySelectorAll('.panel-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     openAddPanel(btn.dataset.type);
@@ -111,8 +111,7 @@ function closeAddPanel() {
   })
 }
 
-
-/************** FUNCTIONS **************/
+/************** TODO: FUNCTIONS **************/
 function formatPrice(number, symbol = '$') {
   return `${symbol} ` + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
