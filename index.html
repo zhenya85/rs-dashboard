@@ -12,19 +12,19 @@
     <span class="logo-text">Personal<span>Dashboard</span></span>
     <button class="menu-close__button" id="menu-close" title="Свернуть">X</button>
   </div>
-    <div class="menu__sections">
-      <div class="navigation__wrapper">
-        <div class="menu__title">Navigation</div>
-        <button class="navigation__btn active"><span>📁</span> Projects</button>
-        <button class="navigation__btn"><span>👥</span> Employees</button>
-      </div>
+  <div class="menu__sections">
+    <div class="navigation__wrapper">
+      <div class="menu__title">Navigation</div>
+      <button data-type="projects" class="navigation__btn active"><span>📁</span> Projects</button>
+      <button data-type="employees" class="navigation__btn"><span>👥</span> Employees</button>
     </div>
+  </div>
 
   <div class="menu__footer">
     <div class="menu__title">Period</div>
     <div class="period__wrapper">
-      <select id="p-month" class="period-month"></select>
-      <select id="p-year" class="period-year"></select>
+      <select id="p-month" class="period-month" onchange="setPeriod()"></select>
+      <select id="p-year" class="period-year" onchange="setPeriod()"></select>
     </div>
   </div>
 </aside>
@@ -37,19 +37,180 @@
     </div>
   </header>
   <div class="dashboard">
-    <section class="info"></section>
-    <section class="dashboard__wrapper">
-      <table class="dashboard__data">
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
+    <section class="info">
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Projects</span>
+          <span class="head-icon">📁</span>
+        </div>
+        <div class="info-item__main">0</div>
+        <div class="info-item__footer">
+          Budget: <span>$ 0</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Employees</span>
+          <span class="head-icon">👥</span>
+        </div>
+        <div class="info-item__main">0</div>
+        <div class="info-item__footer">
+          Assigned: <span>0</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">FOT</span>
+          <span class="head-icon">💰</span>
+        </div>
+        <div class="info-item__main">$ 0</div>
+        <div class="info-item__footer">
+          Per month
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-item__head">
+          <span class="head-name">Estimated income</span>
+          <span class="head-icon">📈</span>
+        </div>
+        <div class="info-item__main green">$ 0</div>
+        <div class="info-item__footer">
+          For the period
+        </div>
+      </div>
+    </section>
+    <section data-type="projects" class="dashboard__wrapper dashboard_active">
+      <div class="panel">
+        <div class="panel-info">Projects <span>0</span></div>
+        <button class="panel-btn"  data-type="projects">+ Add project</button>
+      </div>
+      <div class="filter-panel"></div>
+      <div class="projects__wrapper">
+        <table class="dashboard__data">
+          <thead>
+          <tr>
+            <th>
+              Company
+              <button class="project-sort" data-category="company">⇅</button>
+              <button class="project-find" data-category="company">⌕</button>
+            </th>
+            <th>
+              Project
+              <button class="project-sort" data-category="project">⇅</button>
+              <button class="project-find" data-category="project">⌕</button>
+            </th>
+            <th>
+              Budget
+              <button class="project-sort" data-category="budget">⇅</button>
+            </th>
+            <th>
+              Capacity
+              <button class="project-sort" data-category="capacity">⇅</button>
+            </th>
+            <th>
+              Employees
+            </th>
+            <th>
+              Income
+              <button class="project-sort" data-category="income">⇅</button>
+            </th>
+            <th>
+              Actions
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="empty__positions">
+            <td colspan="7">
+              <div class="empty__icon">📁</div>
+              <div class="empty__description">
+                There are no projects yet. Be the first to add one!
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="projects__background"></div>
+      </div>
+    </section>
+
+
+    <section data-type="employees" class="dashboard__wrapper">
+      <div class="panel">
+        <div class="panel-info">Employees <span>0</span></div>
+        <button class="panel-btn" data-type="employees">+ Add employee</button>
+      </div>
+      <div class="filter-panel"></div>
+      <div class="employees__wrapper">
+        <table class="dashboard__data">
+          <thead>
+          <tr>
+            <th>
+              Name
+              <button class="employees-sort" data-category="name">⇅</button>
+              <button class="employees-find" data-category="name">⌕</button>
+            </th>
+            <th>
+              Surname
+              <button class="employees-sort" data-category="surname">⇅</button>
+              <button class="employees-find" data-category="surname">⌕</button>
+            </th>
+            <th>
+              Age
+              <button class="employees-sort" data-category="age">⇅</button>
+            </th>
+            <th>
+              Job title
+              <button class="employees-sort" data-category="jobTitle">⇅</button>
+              <button class="employees-find" data-category="jobTitle">⌕</button>
+            </th>
+            <th>
+              Salary
+              <button class="employees-sort" data-category="salary">⇅</button>
+            </th>
+            <th>
+              Pay
+              <button class="employees-sort" data-category="pay">⇅</button>
+            </th>
+            <th>
+              Project
+            </th>
+            <th>
+              Income
+              <button class="employees-sort" data-category="income">⇅</button>
+            </th>
+            <th>
+              Actions
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="empty__positions">
+            <td colspan="9">
+              <div class="empty__icon">👥</div>
+              <div class="empty__description">
+                There are no employees. Add the first one!
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 </main>
+
+<!--Panel-->
+<div id="p-background" class="panel__background pc_button"></div>
+<div id="add-panel" class="add-data__panel" data-section="">
+</div>
+
+
+<!--Scripts-->
+<script src="./scripts/panel-data.js" type="module"></script>
 <script src="./scripts/init.js" type="module"></script>
-<script src="./scripts/main.js"></script>
+<script src="./scripts/main.js" type="module"></script>
 </body>
 </html>
