@@ -3,7 +3,13 @@ let state = {};
 const RENDER_TYPES = {
   "All": "all",
   "Header": "header",
-  "OpenPage": "openPage"
+  "OpenPage": "openPage",
+  "Employees": "employees",
+  "Projects": "projects"
+}
+const TYPE_OF_WINDOW={
+  "Projects": "projects",
+  "Employees": "employees"
 }
 const monthes = [
   "January", "February", "March",
@@ -26,11 +32,13 @@ pYear.insertAdjacentHTML("beforeend", years.reduce((acc, year) => {
 saveState({
   selectedMonth: monthes[realMonth],
   selectedYear: realYear,
-  openPage: "projects",
+  openPage: TYPE_OF_WINDOW.Projects,
   filters: {
     projects: {},
     employees: {}
-  }
+  },
+  employees: [],
+  projects: []
 });
 render();
 
@@ -78,8 +86,10 @@ function render(section = RENDER_TYPES.All) {
   if (section === RENDER_TYPES.OpenPage || section === RENDER_TYPES.All) {
     openPage();
   }
+  if (section === RENDER_TYPES.Projects || section === RENDER_TYPES.All) {}
+  if (section === RENDER_TYPES.Employees || section === RENDER_TYPES.All) {}
 
 }
 
-export {state, render, saveState, RENDER_TYPES, monthes};
+export {state, render, saveState, RENDER_TYPES, monthes, TYPE_OF_WINDOW};
 

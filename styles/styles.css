@@ -506,6 +506,14 @@ main {
   outline: none;
   transition: border-color .15s;
 }
+.field__select.field_red,
+.field__input.field_red{
+  border-color: var(--red);
+}
+.field__select.field_green,
+.field__input.field_green{
+  border-color: var(--green);
+}
 .input_invalid{
   border-color: var(--red);
 }
@@ -514,6 +522,9 @@ main {
   color: var(--red);
   margin-top: 3px;
   display: none;
+}
+.field__validation_visible{
+  display: block;
 }
 .panel__footer{
   padding: 14px 22px;
@@ -551,5 +562,9 @@ main {
   color: #fff;
   &:hover{
     background: var(--violet-light);
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }
