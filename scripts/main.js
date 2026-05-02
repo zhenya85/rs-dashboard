@@ -1,3 +1,4 @@
+import {getAge} from './math-functions.js';
 import {monthes, render, saveState, RENDER_TYPES, state, TYPE_OF_WINDOW} from './init.js';
 import {addProject, addEmployee} from './panel-data.js';
 
@@ -134,7 +135,7 @@ function initAddButton(template) {
       let fieldName = option.label.split(' ')[0].toLowerCase();
       acc[fieldName] = `${document.getElementById(option.inputId).value}`;
       return acc;
-    }, {id: state[categoryType].length});
+    }, {id: `${template.id.split('-')[1].slice(0,3)}-${state[categoryType].length}`});
     saveState({
       [categoryType]: [...state[categoryType], newData]
     });
@@ -183,25 +184,4 @@ function initAddButton(template) {
     }, true);
   }
 
-
-  /*saveState({
-    [e.target.dataset.type]: [...state[e.target.dataset.type], newEmployee]
-  });
-  render(e.target.dataset.type);*/
-}
-
-
-/************** TODO: FUNCTIONS **************/
-function formatPrice(number, symbol = '$') {
-  return `${symbol} ` + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-}
-
-function getAge(date) {
-  const dateNow = new Date();
-  let years = dateNow.getFullYear() - (new Date(date)).getFullYear();
-  let m = dateNow.getMonth() - (new Date(date)).getMonth();
-  if (m < 0 || (m === 0 && dateNow.getDate() < (new Date(date)).getDate())) {
-    years--;
-  }
-  return years;
 }
