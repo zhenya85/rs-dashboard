@@ -8,7 +8,8 @@ const RENDER_TYPES = {
   "Header": "header",
   "OpenPage": "openPage",
   "Employees": "employees",
-  "Projects": "projects"
+  "Projects": "projects",
+  "DashboardInfo": "dashboardInfo",
 }
 const TYPE_OF_WINDOW = {
   "Projects": "projects",
@@ -55,6 +56,16 @@ function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`
 }
+function updateDashboardInfo() {
+  const allProjects = document.getElementById("dashboard-all-projects");
+  const allBudget=document.getElementById("dashboard-all-projects-budget");
+  const allEmployees = document.getElementById("dashboard-employees");
+  allProjects.innerHTML = state.projects.length;
+  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
+    return summ+Number(project.budget);
+  },0));
+  allEmployees.innerHTML = state.employees.length;
+}
 
 function openPage() {
   document.querySelector(".active").classList.remove("active");
@@ -78,6 +89,52 @@ function loadState() {
   return ({
     ...(!!stateStr ? JSON.parse(stateStr) : {}),
   })
+}
+
+function getProjects() {
+  const projectsDashboard = document.getElementById("projects-dashboard");
+  const tBody = projectsDashboard.querySelector("tbody");
+  const emptyProjectsTemplate = `
+    <tr class="empty__positions">
+      <td colspan="7">
+        <div class="empty__icon">📁</div>
+        <div class="empty__description">
+          There are no projects yet. Be the first to add one!
+        </div>
+      </td>
+    </tr>
+  `;
+  const projects = state.projects.reduce((acc, projectItem) => {
+    const {id, project, company, budget, capacity} = projectItem;
+    let temp = `
+      <tr id="${id}" class="project__position">
+        <td class="project__company">${company}</td>
+        <td class="project__project">${project}</td>
+        <td class="project__budget">${formatPrice(budget)}</td>
+        <td class="project__capacity">
+          <div>${formatPrice(0,"")}/${capacity}</div>
+          <div class="progress">
+            <div id="project-progress-line" class="p-line" style="width: ${showCapacityProgressLine(capacity)}%"></div>
+          </div>
+        </td>
+        <td class="project__employees">
+          <button class="project__employees-btn">Show (${0})</button>
+        </td>
+        <td class="project__income">${formatPrice(0)}</td>
+        <td class="project__actions">
+          <button class="project__actions_remove" title="Vocation">Delete</button>
+        </td>
+      </tr>
+    `;
+    return acc + temp;
+  }, "");
+  tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
+  document.querySelectorAll(`.project__actions_remove`)
+    .forEach(btn=>btn.addEventListener("click", removePosition));
+  render(RENDER_TYPES.DashboardInfo);
+}
+function showCapacityProgressLine(capacity) {
+  return 0;
 }
 
 function getEmployees() {
@@ -118,6 +175,8 @@ function getEmployees() {
     return acc + temp;
   }, "");
   tBody.innerHTML = employees.length ? employees : emptyEmployeesTemplate;
+  document.querySelectorAll(`.employee__actions_remove`)
+    .forEach(btn=>btn.addEventListener("click", removePosition));
   tBody.querySelectorAll('.employee__position')
     .forEach(employee => {
       employee.querySelector('.employee-job-selection').addEventListener('change', changeSelectStatus);
@@ -144,6 +203,12 @@ function changeSelectStatus(e) {
       return emp;
     })});
 }
+function removePosition(e) {
+  const typeClass = e.target.classList.value.split("__")[0];
+  const parentElementId = e.target.closest(`.${typeClass}__position`).id;
+  saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
+  render(RENDER_TYPES[typeClass+'s']);
+}
 
 
 /*********** TODO: RENDER ***********/
@@ -159,9 +224,13 @@ function render(section = RENDER_TYPES.All) {
     openPage();
   }
   if (section === RENDER_TYPES.Projects || section === RENDER_TYPES.All) {
+    getProjects();
   }
   if (section === RENDER_TYPES.Employees || section === RENDER_TYPES.All) {
     getEmployees();
+  }
+  if (section === RENDER_TYPES.DashboardInfo || section === RENDER_TYPES.All) {
+    updateDashboardInfo();
   }
 
 }
