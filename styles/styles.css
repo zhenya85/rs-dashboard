@@ -431,12 +431,11 @@ main {
     font-size: 15px;
   }
 }
-
-.employee__position {
+.project__position,
+.employee__position{
   &:hover {
     background: rgba(255, 255, 255, 0.04);
   }
-
   td {
     padding: 10px 13px;
     border-bottom: 1px solid var(--border-gray);
@@ -444,17 +443,7 @@ main {
     vertical-align: middle;
     font-weight: 500;
   }
-
-  select {
-    background: var(--bg-card2);
-    border: 1px solid var(--violet);
-    color: var(--txt);
-    font-family: var(--f-Sans), serif;
-    font-size: 12px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    outline: none;
-  }
+  .project__employees-btn,
   .employee__project-btn{
     background: var(--bg-card2);
     border: 1px solid var(--border-gray);
@@ -471,6 +460,7 @@ main {
       color: var(--txt);
     }
   }
+  .project__actions button,
   .employee__actions button{
     display: inline-flex;
     align-items: center;
@@ -496,12 +486,59 @@ main {
       background: rgba(255, 255, 255, 0.03);
     }
   }
+
+  .project__actions .project__actions_remove,
   .employee__actions .employee__actions_remove{
     &:hover{
       border-color: rgba(244, 63, 94, 0.4);
       color: var(--red);
     }
   }
+}
+.project__position{
+  .project__capacity{
+    color: var(--violet);
+    .progress{
+      background: var(--bg-card2);
+      border-radius: 3px;
+      height: 4px;
+      min-width: 68px;
+      overflow: hidden;
+      margin-top: 3px;
+      .p-line{
+        height: 100%;
+        border-radius: 3px;
+        background: var(--violet);
+        transition: width .3s;
+      }
+    }
+    &.red{
+      color: var(--red);
+      .progress .p-line{
+        background: var(--red);
+      }
+    }
+    &.orange{
+      color: var(--orange);
+      .progress .p-line{
+        background: var(--orange);
+      }
+    }
+  }
+}
+.employee__position {
+  select {
+    background: var(--bg-card2);
+    border: 1px solid var(--violet);
+    color: var(--txt);
+    font-family: var(--f-Sans), serif;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    outline: none;
+  }
+
+
 }
 
 .projects__background {

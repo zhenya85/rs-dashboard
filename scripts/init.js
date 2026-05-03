@@ -8,7 +8,8 @@ const RENDER_TYPES = {
   "Header": "header",
   "OpenPage": "openPage",
   "Employees": "employees",
-  "Projects": "projects"
+  "Projects": "projects",
+  "DashboardInfo": "dashboardInfo",
 }
 const TYPE_OF_WINDOW = {
   "Projects": "projects",
@@ -55,6 +56,14 @@ function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`
 }
+function updateDashboardProjectsBudget() {
+  const allProjects = document.getElementById("dashboard-all-projects");
+  const allBudget=document.getElementById("dashboard-all-projects-budget");
+  allProjects.innerHTML = state.projects.length;
+  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
+    return summ+Number(project.budget);
+  },0));
+}
 
 function openPage() {
   document.querySelector(".active").classList.remove("active");
@@ -78,6 +87,50 @@ function loadState() {
   return ({
     ...(!!stateStr ? JSON.parse(stateStr) : {}),
   })
+}
+
+function getProjects() {
+  const projectsDashboard = document.getElementById("projects-dashboard");
+  const tBody = projectsDashboard.querySelector("tbody");
+  const emptyProjectsTemplate = `
+    <tr class="empty__positions">
+      <td colspan="7">
+        <div class="empty__icon">📁</div>
+        <div class="empty__description">
+          There are no projects yet. Be the first to add one!
+        </div>
+      </td>
+    </tr>
+  `;
+  const projects = state.projects.reduce((acc, projectItem) => {
+    const {id, project, company, budget, capacity} = projectItem;
+    let temp = `
+      <tr id="${id}" class="project__position">
+        <td class="project__company">${company}</td>
+        <td class="project__project">${project}</td>
+        <td class="project__budget">${formatPrice(budget)}</td>
+        <td class="project__capacity">
+          <div>${formatPrice(0,"")}/${capacity}</div>
+          <div class="progress">
+            <div id="project-progress-line" class="p-line" style="width: ${showCapacityProgressLine(capacity)}%"></div>
+          </div>
+        </td>
+        <td class="project__employees">
+          <button class="project__employees-btn">Show (${0})</button>
+        </td>
+        <td class="project__income">${formatPrice(0)}</td>
+        <td class="project__actions">
+          <button class="project__actions_remove" title="Vocation" onclick="removePosition()">Delete</button>
+        </td>
+      </tr>
+    `;
+    return acc + temp;
+  }, "");
+  tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
+  render(RENDER_TYPES.DashboardInfo);
+}
+function showCapacityProgressLine(capacity) {
+  return 0;
 }
 
 function getEmployees() {
@@ -144,6 +197,7 @@ function changeSelectStatus(e) {
       return emp;
     })});
 }
+function removePosition() {}
 
 
 /*********** TODO: RENDER ***********/
@@ -159,9 +213,13 @@ function render(section = RENDER_TYPES.All) {
     openPage();
   }
   if (section === RENDER_TYPES.Projects || section === RENDER_TYPES.All) {
+    getProjects();
   }
   if (section === RENDER_TYPES.Employees || section === RENDER_TYPES.All) {
     getEmployees();
+  }
+  if (section === RENDER_TYPES.DashboardInfo || section === RENDER_TYPES.All) {
+    updateDashboardProjectsBudget();
   }
 
 }
