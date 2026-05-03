@@ -1,3 +1,4 @@
+import {JOB_POSITIONS} from './init.js';
 const addProject = {
   id: "new-project",
   title: "New project",
@@ -68,7 +69,7 @@ const addEmployee = {
     {
       label: "Job title *",
       fieldType: "select",
-      selectOptions: ["Select...", "Junior", "Middle", "Senior", "Lead", "Architect","BO"],
+      selectOptions: ["Select...", ...JOB_POSITIONS],
       inputId: "jobId",
       placeholder: "",
       vFieldID: "jobValidId",
