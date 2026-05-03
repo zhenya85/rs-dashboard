@@ -135,7 +135,7 @@ function initAddButton(template) {
       let fieldName = option.label.split(' ')[0].toLowerCase();
       acc[fieldName] = `${document.getElementById(option.inputId).value}`;
       return acc;
-    }, {id: `${template.id.split('-')[1].slice(0,3)}-${state[categoryType].length}`});
+    }, {id: `${template.id.split('-')[1].slice(0,3)}-${crypto.randomUUID()}`});
     saveState({
       [categoryType]: [...state[categoryType], newData]
     });

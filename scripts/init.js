@@ -56,13 +56,15 @@ function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`
 }
-function updateDashboardProjectsBudget() {
+function updateDashboardInfo() {
   const allProjects = document.getElementById("dashboard-all-projects");
   const allBudget=document.getElementById("dashboard-all-projects-budget");
+  const allEmployees = document.getElementById("dashboard-employees");
   allProjects.innerHTML = state.projects.length;
   allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
     return summ+Number(project.budget);
   },0));
+  allEmployees.innerHTML = state.employees.length;
 }
 
 function openPage() {
@@ -120,13 +122,15 @@ function getProjects() {
         </td>
         <td class="project__income">${formatPrice(0)}</td>
         <td class="project__actions">
-          <button class="project__actions_remove" title="Vocation" onclick="removePosition()">Delete</button>
+          <button class="project__actions_remove" title="Vocation">Delete</button>
         </td>
       </tr>
     `;
     return acc + temp;
   }, "");
   tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
+  document.querySelectorAll(`.project__actions_remove`)
+    .forEach(btn=>btn.addEventListener("click", removePosition));
   render(RENDER_TYPES.DashboardInfo);
 }
 function showCapacityProgressLine(capacity) {
@@ -171,6 +175,8 @@ function getEmployees() {
     return acc + temp;
   }, "");
   tBody.innerHTML = employees.length ? employees : emptyEmployeesTemplate;
+  document.querySelectorAll(`.employee__actions_remove`)
+    .forEach(btn=>btn.addEventListener("click", removePosition));
   tBody.querySelectorAll('.employee__position')
     .forEach(employee => {
       employee.querySelector('.employee-job-selection').addEventListener('change', changeSelectStatus);
@@ -197,7 +203,12 @@ function changeSelectStatus(e) {
       return emp;
     })});
 }
-function removePosition() {}
+function removePosition(e) {
+  const typeClass = e.target.classList.value.split("__")[0];
+  const parentElementId = e.target.closest(`.${typeClass}__position`).id;
+  saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
+  render(RENDER_TYPES[typeClass+'s']);
+}
 
 
 /*********** TODO: RENDER ***********/
@@ -219,7 +230,7 @@ function render(section = RENDER_TYPES.All) {
     getEmployees();
   }
   if (section === RENDER_TYPES.DashboardInfo || section === RENDER_TYPES.All) {
-    updateDashboardProjectsBudget();
+    updateDashboardInfo();
   }
 
 }
