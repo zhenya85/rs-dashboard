@@ -1,4 +1,4 @@
-import {getAge, formatPrice, getEstimatedPayment} from './math-functions.js';
+import {getAge, formatPrice, getEstimatedPayment, openModal, MODAL_BUTTONS_COLOR} from './other-functions.js';
 
 /*********** TODO: CONSTANTS **************/
 let state = {};
@@ -60,11 +60,15 @@ function updateDashboardInfo() {
   const allProjects = document.getElementById("dashboard-all-projects");
   const allBudget=document.getElementById("dashboard-all-projects-budget");
   const allEmployees = document.getElementById("dashboard-employees");
+  const fot = document.getElementById("dashboard-fot");
+  const estimateIncome = document.getElementById("dashboard-estimate-income");
   allProjects.innerHTML = state.projects.length;
   allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
     return summ+Number(project.budget);
   },0));
   allEmployees.innerHTML = state.employees.length;
+  fot.innerHTML = formatPrice(0);
+  estimateIncome.innerHTML= formatPrice(0);
 }
 
 function openPage() {
@@ -206,8 +210,31 @@ function changeSelectStatus(e) {
 function removePosition(e) {
   const typeClass = e.target.classList.value.split("__")[0];
   const parentElementId = e.target.closest(`.${typeClass}__position`).id;
-  saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
-  render(RENDER_TYPES[typeClass+'s']);
+  const dataModal = {
+    title: "Delete",
+    body: {
+      text: 'Delete the Phoenix Portal project ? All assignments will be removed.',
+      strongText: 'Phoenix Portal'
+    },
+    buttons: [
+      {
+        id: 'md-cancel',
+        btnColor: MODAL_BUTTONS_COLOR.Gray,
+        btnName: 'Cancel',
+      },
+      {
+        id: 'md-rem',
+        btnColor: MODAL_BUTTONS_COLOR.Red,
+        btnName: 'Remove',
+        fn: () => {
+          saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
+          render(RENDER_TYPES[typeClass+'s']);
+        }
+      }
+    ]
+  }
+  openModal(parentElementId, dataModal);
+
 }
 
 
