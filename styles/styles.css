@@ -499,7 +499,7 @@ main {
   .project__capacity{
     color: var(--violet);
     .progress{
-      background: var(--bg-card2);
+      background: var(--gray);
       border-radius: 3px;
       height: 4px;
       min-width: 68px;
