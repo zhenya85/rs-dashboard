@@ -499,7 +499,7 @@ main {
   .project__capacity{
     color: var(--violet);
     .progress{
-      background: var(--bg-card2);
+      background: var(--gray);
       border-radius: 3px;
       height: 4px;
       min-width: 68px;
@@ -734,4 +734,100 @@ main {
     cursor: not-allowed;
   }
 }
-
+/********* Modal ***********/
+.modal__wrapper{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  &.modal-open{
+    display: flex;
+  }
+}
+.modal__window{
+  background: var(--bg-card);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--radius);
+  padding: 22px;
+  width: 360px;
+  max-width: 95vw;
+  animation: mi .14s ease;
+}
+.modal__head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  .modal__title{
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .close-modal__btn{
+    background: none;
+    border: none;
+    color: var(--text1);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    &:hover{
+      color: var(--txt);
+    }
+  }
+}
+.modal__body .modal__text{
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 18px;
+  line-height: 1.6;
+  .text__marker{
+    color: var(--txt);
+  }
+}
+.modal__footer{
+  display: flex;
+  gap: 7px;
+  justify-content: flex-end;
+  .modal__btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-family: var(--f-Sans), serif;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: var(--small-radius);
+    cursor: pointer;
+    transition: all .12s;
+    white-space: nowrap;
+    background: transparent;
+    border: 1px solid var(--border-gray);
+    color: var(--text2);
+    &.gray{
+      &:hover {
+        border-color: var(--border-gray-dark);
+        color: var(--txt);
+        background: var(--gray);
+      }
+    }
+    &.red{
+      background: transparent;
+      border: 1px solid var(--border-gray);
+      color: var(--text1);
+      &:hover {
+        border-color: var(--border-red);
+        color: var(--red);
+      }
+    }
+    &.green{
+      &:hover {
+        border-color: var(--border-green);
+        color: var(--green);
+      }
+    }
+  }
+}

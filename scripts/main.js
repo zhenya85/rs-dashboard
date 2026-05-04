@@ -1,4 +1,4 @@
-import {getAge} from './math-functions.js';
+import {getAge} from './other-functions.js';
 import {monthes, render, saveState, RENDER_TYPES, state, TYPE_OF_WINDOW} from './init.js';
 import {addProject, addEmployee} from './panel-data.js';
 

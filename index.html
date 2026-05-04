@@ -63,7 +63,7 @@
           <span class="head-name">FOT</span>
           <span class="head-icon">💰</span>
         </div>
-        <div class="info-item__main">$ 0</div>
+        <div id="dashboard-fot" class="info-item__main">$ 0</div>
         <div class="info-item__footer">
           Per month
         </div>
@@ -73,7 +73,7 @@
           <span class="head-name">Estimated income</span>
           <span class="head-icon">📈</span>
         </div>
-        <div class="info-item__main green">$ 0</div>
+        <div id="dashboard-estimate-income" class="info-item__main green">$ 0</div>
         <div class="info-item__footer">
           For the period
         </div>
@@ -190,12 +190,13 @@
 
 <!--Panel-->
 <div id="p-background" class="panel__background pc_button"></div>
-<div id="add-panel" class="add-data__panel" data-section="">
-</div>
+<div id="add-panel" class="add-data__panel" data-section=""></div>
 
+<!--Modal-->
+<div id="modal" class="modal__wrapper"></div>
 
 <!--Scripts-->
-<script src="./scripts/math-functions.js" type="module"></script>
+<script src="scripts/other-functions.js" type="module"></script>
 <script src="./scripts/panel-data.js" type="module"></script>
 <script src="./scripts/init.js" type="module"></script>
 <script src="./scripts/main.js" type="module"></script>
