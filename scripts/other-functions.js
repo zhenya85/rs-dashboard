@@ -22,9 +22,13 @@ function formatPrice(number, symbol = '$') {
   return `${symbol} ` + Number(number).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
-function openModal(btnIdName, data) {
-  const actionElement = document.getElementById(btnIdName);
-  actionElement.addEventListener('click', (e) => {
+/**
+ *
+ * @param domElement
+ * @param data Object with template for modal
+ */
+function openModal(domElement, data) {
+  domElement.addEventListener('click', (e) => {
     generateModal(data);
   });
 }

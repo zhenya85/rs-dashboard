@@ -1,5 +1,15 @@
 import {getAge, formatPrice, getEstimatedPayment, openModal, MODAL_BUTTONS_COLOR} from './other-functions.js';
-
+/**************** TODO: SET START PAGE **********/
+window.addEventListener('load', () => {
+  updateLSState({openPage: TYPE_OF_WINDOW.Projects});
+  render();
+});
+function updateLSState(data) {
+  localStorage.setItem("state", JSON.stringify({
+    ...JSON.parse(localStorage.getItem("state")),
+    ...data
+  }))
+}
 /*********** TODO: CONSTANTS **************/
 let state = {};
 const JOB_POSITIONS = ["Junior", "Middle", "Senior", "Lead", "Architect", "BO"];
@@ -21,7 +31,8 @@ const monthes = [
   "August", "September", "October",
   "November", "December"];
 const years = [2025, 2026, 2027];
-/*********** INIT MENU BAR **********/
+
+/*********** TODO: INIT MENU BAR **********/
 const pMonth = document.getElementById("p-month");
 const pYear = document.getElementById("p-year");
 const realYear = new Date().getFullYear();
@@ -50,25 +61,28 @@ render();
 
 
 /************* TODO: ALL Functions ************/
-
-
 function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`
 }
+
 function updateDashboardInfo() {
   const allProjects = document.getElementById("dashboard-all-projects");
-  const allBudget=document.getElementById("dashboard-all-projects-budget");
+  const allBudget = document.getElementById("dashboard-all-projects-budget");
   const allEmployees = document.getElementById("dashboard-employees");
   const fot = document.getElementById("dashboard-fot");
   const estimateIncome = document.getElementById("dashboard-estimate-income");
+  const panelInfoProjects = document.getElementById("panel-info-projects");
+  const panelInfoEmployees = document.getElementById("panel-info-employees");
   allProjects.innerHTML = state.projects.length;
-  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
-    return summ+Number(project.budget);
-  },0));
+  panelInfoProjects.innerText= state.projects.length;
+  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project) => {
+    return summ + Number(project.budget);
+  }, 0));
   allEmployees.innerHTML = state.employees.length;
+  panelInfoEmployees.innerText= state.employees.length;
   fot.innerHTML = formatPrice(0);
-  estimateIncome.innerHTML= formatPrice(0);
+  estimateIncome.innerHTML = formatPrice(0);
 }
 
 function openPage() {
@@ -81,12 +95,15 @@ function openPage() {
   })
 }
 
+/************ TODO: OPERATIONS WITH STATE **************/
 function saveState(data) {
   localStorage.setItem("state", JSON.stringify({
     ...state,
     ...data
   }));
+  state = loadState();
 }
+
 
 function loadState() {
   let stateStr = localStorage.getItem("state");
@@ -95,6 +112,7 @@ function loadState() {
   })
 }
 
+/************* TODO: PROJECTS DASHBOARD *****************/
 function getProjects() {
   const projectsDashboard = document.getElementById("projects-dashboard");
   const tBody = projectsDashboard.querySelector("tbody");
@@ -113,10 +131,10 @@ function getProjects() {
     let temp = `
       <tr id="${id}" class="project__position">
         <td class="project__company">${company}</td>
-        <td class="project__project">${project}</td>
+        <td class="project__name">${project}</td>
         <td class="project__budget">${formatPrice(budget)}</td>
         <td class="project__capacity">
-          <div>${formatPrice(0,"")}/${capacity}</div>
+          <div>${formatPrice(0, "")}/${capacity}</div>
           <div class="progress">
             <div id="project-progress-line" class="p-line" style="width: ${showCapacityProgressLine(capacity)}%"></div>
           </div>
@@ -126,7 +144,7 @@ function getProjects() {
         </td>
         <td class="project__income">${formatPrice(0)}</td>
         <td class="project__actions">
-          <button class="project__actions_remove" title="Vocation">Delete</button>
+          <button id="project__actions_remove" class="project__actions_remove" title="Vocation">Delete</button>
         </td>
       </tr>
     `;
@@ -134,13 +152,47 @@ function getProjects() {
   }, "");
   tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
   document.querySelectorAll(`.project__actions_remove`)
-    .forEach(btn=>btn.addEventListener("click", removePosition));
+    .forEach(btn => {removeProjectPosition(btn)});
   render(RENDER_TYPES.DashboardInfo);
 }
+
 function showCapacityProgressLine(capacity) {
   return 0;
 }
 
+function removeProjectPosition(currentElement) {
+  const typeClass = "project";
+  const parentElementId = currentElement.closest(`.project__position`);
+  const projectName = parentElementId.querySelector('.project__name');
+  const dataModal = {
+    title: "Delete",
+    body: {
+      text: `Delete the ${projectName.innerText} ${typeClass}? All assignments will be removed.`,
+      strongText: projectName.innerText
+    },
+    buttons: [
+      {
+        id: 'md-cancel',
+        btnColor: MODAL_BUTTONS_COLOR.Gray,
+        btnName: 'Cancel',
+      },
+      {
+        id: 'md-rem',
+        btnColor: MODAL_BUTTONS_COLOR.Red,
+        btnName: 'Remove',
+        fn: () => {
+          saveState({
+            [typeClass + 's']: state[typeClass + 's'].filter(item => item.id !== parentElementId.id)
+          });
+          render(RENDER_TYPES[typeClass + 's']);
+        }
+      }
+    ]
+  }
+  openModal(currentElement, dataModal);
+
+}
+/************* TODO: EMPLOYEES DASHBOARD *****************/
 function getEmployees() {
   loadState();
   const employeesDashboard = document.getElementById("employees-dashboard");
@@ -180,7 +232,7 @@ function getEmployees() {
   }, "");
   tBody.innerHTML = employees.length ? employees : emptyEmployeesTemplate;
   document.querySelectorAll(`.employee__actions_remove`)
-    .forEach(btn=>btn.addEventListener("click", removePosition));
+    .forEach(btn => removeEmployeePosition(btn));
   tBody.querySelectorAll('.employee__position')
     .forEach(employee => {
       employee.querySelector('.employee-job-selection').addEventListener('change', changeSelectStatus);
@@ -200,21 +252,25 @@ function addJobSelection(selectedJob) {
 function changeSelectStatus(e) {
   const mainSection = e.target.closest('.dashboard__wrapper');
   const parentEmployee = e.target.closest('.employee__position');
-  saveState({[mainSection.dataset.type]: state[mainSection.dataset.type].map(emp => {
-      if(emp.id === parentEmployee.id) {
+  saveState({
+    [mainSection.dataset.type]: state[mainSection.dataset.type].map(emp => {
+      if (emp.id === parentEmployee.id) {
         return {...emp, job: e.target.value}
       }
       return emp;
-    })});
+    })
+  });
 }
-function removePosition(e) {
-  const typeClass = e.target.classList.value.split("__")[0];
-  const parentElementId = e.target.closest(`.${typeClass}__position`).id;
+
+function removeEmployeePosition(currentElement) {
+  const typeClass = currentElement.classList.value.split("__")[0];
+  const parentElementId = currentElement.closest(`.${typeClass}__position`);
+  const empoloyeeName = parentElementId.querySelector('.employee__name');
   const dataModal = {
     title: "Delete",
     body: {
-      text: 'Delete the Phoenix Portal project ? All assignments will be removed.',
-      strongText: 'Phoenix Portal'
+      text: `Delete the ${empoloyeeName.innerText} ${typeClass}? All assignments will be removed.`,
+      strongText: empoloyeeName.innerText
     },
     buttons: [
       {
@@ -227,13 +283,16 @@ function removePosition(e) {
         btnColor: MODAL_BUTTONS_COLOR.Red,
         btnName: 'Remove',
         fn: () => {
-          saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
-          render(RENDER_TYPES[typeClass+'s']);
+          saveState({
+            [typeClass + 's']: state[typeClass + 's'].filter(item => item.id !== parentElementId.id)
+          });
+          render(RENDER_TYPES[typeClass + 's']);
         }
       }
     ]
   }
-  openModal(parentElementId, dataModal);
+  // openModal(typeClass + '__actions_remove', dataModal);
+  openModal(currentElement, dataModal);
 
 }
 

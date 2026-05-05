@@ -38,6 +38,7 @@ navButtons.forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelector('.active').classList.remove('active');
     e.target.classList.add('active');
+    saveState({openPage: e.target.dataset.type});
     document.querySelector('.dashboard_active').classList.remove('dashboard_active');
     wDashboard.forEach(dItem => {
       if (dItem.dataset.type === e.target.dataset.type) {
