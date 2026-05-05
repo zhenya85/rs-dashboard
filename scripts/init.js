@@ -72,11 +72,15 @@ function updateDashboardInfo() {
   const allEmployees = document.getElementById("dashboard-employees");
   const fot = document.getElementById("dashboard-fot");
   const estimateIncome = document.getElementById("dashboard-estimate-income");
+  const panelInfoProjects = document.getElementById("panel-info-projects");
+  const panelInfoEmployees = document.getElementById("panel-info-employees");
   allProjects.innerHTML = state.projects.length;
+  panelInfoProjects.innerText= state.projects.length;
   allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project) => {
     return summ + Number(project.budget);
   }, 0));
   allEmployees.innerHTML = state.employees.length;
+  panelInfoEmployees.innerText= state.employees.length;
   fot.innerHTML = formatPrice(0);
   estimateIncome.innerHTML = formatPrice(0);
 }
