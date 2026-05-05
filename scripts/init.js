@@ -56,19 +56,20 @@ function updateHeader() {
   const periodInfo = document.getElementById("period-info");
   periodInfo.innerText = `${state?.selectedMonth}, ${state?.selectedYear}`
 }
+
 function updateDashboardInfo() {
   const allProjects = document.getElementById("dashboard-all-projects");
-  const allBudget=document.getElementById("dashboard-all-projects-budget");
+  const allBudget = document.getElementById("dashboard-all-projects-budget");
   const allEmployees = document.getElementById("dashboard-employees");
   const fot = document.getElementById("dashboard-fot");
   const estimateIncome = document.getElementById("dashboard-estimate-income");
   allProjects.innerHTML = state.projects.length;
-  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project)=>{
-    return summ+Number(project.budget);
-  },0));
+  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project) => {
+    return summ + Number(project.budget);
+  }, 0));
   allEmployees.innerHTML = state.employees.length;
   fot.innerHTML = formatPrice(0);
-  estimateIncome.innerHTML= formatPrice(0);
+  estimateIncome.innerHTML = formatPrice(0);
 }
 
 function openPage() {
@@ -116,7 +117,7 @@ function getProjects() {
         <td class="project__project">${project}</td>
         <td class="project__budget">${formatPrice(budget)}</td>
         <td class="project__capacity">
-          <div>${formatPrice(0,"")}/${capacity}</div>
+          <div>${formatPrice(0, "")}/${capacity}</div>
           <div class="progress">
             <div id="project-progress-line" class="p-line" style="width: ${showCapacityProgressLine(capacity)}%"></div>
           </div>
@@ -126,7 +127,7 @@ function getProjects() {
         </td>
         <td class="project__income">${formatPrice(0)}</td>
         <td class="project__actions">
-          <button class="project__actions_remove" title="Vocation">Delete</button>
+          <button id="project__actions_remove" class="project__actions_remove" title="Vocation">Delete</button>
         </td>
       </tr>
     `;
@@ -134,9 +135,10 @@ function getProjects() {
   }, "");
   tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
   document.querySelectorAll(`.project__actions_remove`)
-    .forEach(btn=>btn.addEventListener("click", removePosition));
+    .forEach(btn => btn.addEventListener("click", removePosition));
   render(RENDER_TYPES.DashboardInfo);
 }
+
 function showCapacityProgressLine(capacity) {
   return 0;
 }
@@ -180,7 +182,7 @@ function getEmployees() {
   }, "");
   tBody.innerHTML = employees.length ? employees : emptyEmployeesTemplate;
   document.querySelectorAll(`.employee__actions_remove`)
-    .forEach(btn=>btn.addEventListener("click", removePosition));
+    .forEach(btn => removePosition(btn));
   tBody.querySelectorAll('.employee__position')
     .forEach(employee => {
       employee.querySelector('.employee-job-selection').addEventListener('change', changeSelectStatus);
@@ -200,16 +202,19 @@ function addJobSelection(selectedJob) {
 function changeSelectStatus(e) {
   const mainSection = e.target.closest('.dashboard__wrapper');
   const parentEmployee = e.target.closest('.employee__position');
-  saveState({[mainSection.dataset.type]: state[mainSection.dataset.type].map(emp => {
-      if(emp.id === parentEmployee.id) {
+  saveState({
+    [mainSection.dataset.type]: state[mainSection.dataset.type].map(emp => {
+      if (emp.id === parentEmployee.id) {
         return {...emp, job: e.target.value}
       }
       return emp;
-    })});
+    })
+  });
 }
-function removePosition(e) {
-  const typeClass = e.target.classList.value.split("__")[0];
-  const parentElementId = e.target.closest(`.${typeClass}__position`).id;
+
+function removePosition(currentElement) {
+  const typeClass = currentElement.classList.value.split("__")[0];
+  const parentElementId = currentElement.closest(`.${typeClass}__position`).id;
   const dataModal = {
     title: "Delete",
     body: {
@@ -227,13 +232,14 @@ function removePosition(e) {
         btnColor: MODAL_BUTTONS_COLOR.Red,
         btnName: 'Remove',
         fn: () => {
-          saveState({[typeClass+'s']: state[typeClass+'s'].filter(item => item.id !== parentElementId)});
-          render(RENDER_TYPES[typeClass+'s']);
+          saveState({[typeClass + 's']: state[typeClass + 's'].filter(item => item.id !== parentElementId)});
+          render(RENDER_TYPES[typeClass + 's']);
         }
       }
     ]
   }
-  openModal(parentElementId, dataModal);
+  // openModal(typeClass + '__actions_remove', dataModal);
+  openModal(currentElement, dataModal);
 
 }
 
