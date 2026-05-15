@@ -1,6 +1,7 @@
-import {getAge} from './other-functions.js';
-import {monthes, render, saveState, RENDER_TYPES, state, TYPE_OF_WINDOW} from './init.js';
-import {addProject, addEmployee} from './panel-data.js';
+import {getAge, getMonth} from './other-functions.js';
+import {render, saveState, state,} from './init.js';
+import {addEmployee, addProject} from './panel-data.js';
+import {months, RENDER_TYPES, TYPE_OF_WINDOW} from "./variables.js";
 
 /*************** TODO: MAIN MENU *************/
 const menuBar = document.getElementById('menu-bar');
@@ -24,7 +25,7 @@ pYear.addEventListener('change', setPeriod);
 
 function setPeriod() {
   const periodOfTime = {
-    selectedMonth: monthes[pMonth.value],
+    selectedMonth: months[pMonth.value],
     selectedYear: pYear.value,
   }
   saveState(periodOfTime);
@@ -136,9 +137,25 @@ function initAddButton(template) {
       let fieldName = option.label.split(' ')[0].toLowerCase();
       acc[fieldName] = `${document.getElementById(option.inputId).value}`;
       return acc;
-    }, {id: `${template.id.split('-')[1].slice(0,3)}-${crypto.randomUUID()}`});
+    }, {id: `${template.id.split('-')[1].slice(0, 3)}-${crypto.randomUUID()}`});
+    const time = `${state.selectedYear}-${getMonth(state.selectedMonth)}`;
+    const lsData = [...state.data];
+    const timeIndex = lsData.indexOf(time);
+    if (timeIndex > -1) {
+      lsData[timeIndex][categoryType] = [
+        ...(state.data[timeIndex] && state.data[timeIndex][categoryType] ? state.data[time][categoryType] : []),
+        newData]
+    } else {
+      lsData.push({
+        [time]: {
+          [categoryType]: [newData]
+        }
+      })
+    }
+
+
     saveState({
-      [categoryType]: [...state[categoryType], newData]
+      data: lsData
     });
     render(RENDER_TYPES[categoryType]);
   }

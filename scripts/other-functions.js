@@ -1,11 +1,11 @@
-const MODAL_BUTTONS_COLOR = {
-  "Red": 'red',
-  "Gray": "gray",
-  "Green": "green",
-}
+import {months} from "./variables.js";
 
 function getEstimatedPayment(salary, capacity) {
   return formatPrice(salary * Math.max(0.5, capacity));
+}
+
+function getMonth(month) {
+  return months.indexOf(month);
 }
 
 function getAge(date) {
@@ -35,7 +35,7 @@ function openModal(domElement, data) {
 
 function generateModal(data) {
   const modal = document.querySelector(`#modal`);
-  const genButtons = data.buttons.map(btn=>({
+  const genButtons = data.buttons.map(btn => ({
     id: crypto.randomUUID(),
     ...btn
   }));
@@ -63,14 +63,16 @@ function generateModal(data) {
   </div>
 `;
   const closeModalBtn = document.querySelector('.close-modal__btn');
-  closeModalBtn.addEventListener('click', ()=>{modal.classList.remove('modal-open')});
-  genButtons.forEach(btn=>{
-    document.getElementById(btn.id).addEventListener('click', ()=>{
-      !!btn.fn? btn.fn(): null;
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('modal-open')
+  });
+  genButtons.forEach(btn => {
+    document.getElementById(btn.id).addEventListener('click', () => {
+      !!btn.fn ? btn.fn() : null;
       modal.classList.remove('modal-open');
     });
   })
   modal.classList.add('modal-open');
 }
 
-export {getEstimatedPayment, getAge, formatPrice, openModal,MODAL_BUTTONS_COLOR};
+export {getEstimatedPayment, getAge, formatPrice, openModal, getMonth};

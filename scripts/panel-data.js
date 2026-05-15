@@ -1,4 +1,5 @@
-import {JOB_POSITIONS} from './init.js';
+import {JOB_POSITIONS} from "./variables.js";
+
 const addProject = {
   id: "new-project",
   title: "New project",

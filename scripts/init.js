@@ -1,60 +1,45 @@
-import {getAge, formatPrice, getEstimatedPayment, openModal, MODAL_BUTTONS_COLOR} from './other-functions.js';
+import * as VARIABLES from "./variables.js";
+import {formatPrice, getAge, getEstimatedPayment, getMonth, openModal} from './other-functions.js';
+
 /**************** TODO: SET START PAGE **********/
 window.addEventListener('load', () => {
-  updateLSState({openPage: TYPE_OF_WINDOW.Projects});
+  updateLSState({openPage: VARIABLES.TYPE_OF_WINDOW.Projects});
   render();
 });
+
 function updateLSState(data) {
   localStorage.setItem("state", JSON.stringify({
     ...JSON.parse(localStorage.getItem("state")),
     ...data
   }))
 }
+
 /*********** TODO: CONSTANTS **************/
 let state = {};
-const JOB_POSITIONS = ["Junior", "Middle", "Senior", "Lead", "Architect", "BO"];
-const RENDER_TYPES = {
-  "All": "all",
-  "Header": "header",
-  "OpenPage": "openPage",
-  "Employees": "employees",
-  "Projects": "projects",
-  "DashboardInfo": "dashboardInfo",
-}
-const TYPE_OF_WINDOW = {
-  "Projects": "projects",
-  "Employees": "employees"
-}
-const monthes = [
-  "January", "February", "March",
-  "April", "May", "June", "July",
-  "August", "September", "October",
-  "November", "December"];
-const years = [2025, 2026, 2027];
+
 
 /*********** TODO: INIT MENU BAR **********/
 const pMonth = document.getElementById("p-month");
 const pYear = document.getElementById("p-year");
 const realYear = new Date().getFullYear();
 const realMonth = new Date().getMonth();
-pMonth.insertAdjacentHTML("beforeend", monthes.reduce((acc, month, ind) => {
+pMonth.insertAdjacentHTML("beforeend", VARIABLES.months.reduce((acc, month, ind) => {
   return acc + `<option value="${ind}" ${ind === realMonth ? 'selected' : ''}>${month}</option>`;
 }, ''));
-pYear.insertAdjacentHTML("beforeend", years.reduce((acc, year) => {
+pYear.insertAdjacentHTML("beforeend", VARIABLES.years.reduce((acc, year) => {
   return acc + `<option value="${year}" ${year === realYear ? 'selected' : ''}>${year}</option>`;
 }, ''));
 /************* TODO: INIT STATE ************/
 if (!localStorage.getItem("state")) {
   saveState({
-    selectedMonth: monthes[realMonth],
+    selectedMonth: VARIABLES.months[realMonth],
     selectedYear: realYear,
-    openPage: TYPE_OF_WINDOW.Projects,
+    openPage: VARIABLES.TYPE_OF_WINDOW.Projects,
     filters: {
       projects: {},
       employees: {}
     },
-    employees: [],
-    projects: []
+    data: []
   });
 }
 render();
@@ -74,13 +59,18 @@ function updateDashboardInfo() {
   const estimateIncome = document.getElementById("dashboard-estimate-income");
   const panelInfoProjects = document.getElementById("panel-info-projects");
   const panelInfoEmployees = document.getElementById("panel-info-employees");
-  allProjects.innerHTML = state.projects.length;
-  panelInfoProjects.innerText= state.projects.length;
-  allBudget.innerHTML = formatPrice(state.projects.reduce((summ, project) => {
-    return summ + Number(project.budget);
-  }, 0));
-  allEmployees.innerHTML = state.employees.length;
-  panelInfoEmployees.innerText= state.employees.length;
+  const realStateData = state.data[`${state.selectedYear}-${getMonth(state.selectedMonth)}`];
+  allProjects.innerHTML = realStateData?.projects?.length || 0;
+  panelInfoProjects.innerText = realStateData?.projects?.length || 0;
+  if (realStateData?.projects?.length) {
+    allBudget.innerHTML = formatPrice(realStateData?.projects.reduce((summ, project) => {
+      return summ + Number(project.budget);
+    }, 0));
+  } else {
+    allBudget.innerHTML = formatPrice(0);
+  }
+  allEmployees.innerHTML = realStateData?.employees?.length || 0;
+  panelInfoEmployees.innerText = realStateData?.employees?.length || 0;
   fot.innerHTML = formatPrice(0);
   estimateIncome.innerHTML = formatPrice(0);
 }
@@ -126,9 +116,10 @@ function getProjects() {
       </td>
     </tr>
   `;
-  const projects = state.projects.reduce((acc, projectItem) => {
-    const {id, project, company, budget, capacity} = projectItem;
-    let temp = `
+  const projects = state?.data?.find(itemDate => itemDate === `${state.selectedYear}-${getMonth(state.selectedMonth)}`)
+    ?.projects?.reduce((acc, projectItem) => {
+      const {id, project, company, budget, capacity} = projectItem;
+      let temp = `
       <tr id="${id}" class="project__position">
         <td class="project__company">${company}</td>
         <td class="project__name">${project}</td>
@@ -148,12 +139,14 @@ function getProjects() {
         </td>
       </tr>
     `;
-    return acc + temp;
-  }, "");
-  tBody.innerHTML = projects.length ? projects : emptyProjectsTemplate;
+      return acc + temp;
+    }, "");
+  tBody.innerHTML = projects?.length ? projects : emptyProjectsTemplate;
   document.querySelectorAll(`.project__actions_remove`)
-    .forEach(btn => {removeProjectPosition(btn)});
-  render(RENDER_TYPES.DashboardInfo);
+    .forEach(btn => {
+      removeProjectPosition(btn)
+    });
+  render(VARIABLES.RENDER_TYPES.DashboardInfo);
 }
 
 function showCapacityProgressLine(capacity) {
@@ -173,18 +166,18 @@ function removeProjectPosition(currentElement) {
     buttons: [
       {
         id: 'md-cancel',
-        btnColor: MODAL_BUTTONS_COLOR.Gray,
+        btnColor: VARIABLES.MODAL_BUTTONS_COLOR.Gray,
         btnName: 'Cancel',
       },
       {
         id: 'md-rem',
-        btnColor: MODAL_BUTTONS_COLOR.Red,
+        btnColor: VARIABLES.MODAL_BUTTONS_COLOR.Red,
         btnName: 'Remove',
         fn: () => {
           saveState({
             [typeClass + 's']: state[typeClass + 's'].filter(item => item.id !== parentElementId.id)
           });
-          render(RENDER_TYPES[typeClass + 's']);
+          render(VARIABLES.RENDER_TYPES[typeClass + 's']);
         }
       }
     ]
@@ -192,9 +185,11 @@ function removeProjectPosition(currentElement) {
   openModal(currentElement, dataModal);
 
 }
+
 /************* TODO: EMPLOYEES DASHBOARD *****************/
 function getEmployees() {
   loadState();
+  const realStateData = state.data[`${state.selectedYear}-${getMonth(state.selectedMonth)}`];
   const employeesDashboard = document.getElementById("employees-dashboard");
   const tBody = employeesDashboard.querySelector("tbody");
   const emptyEmployeesTemplate = `
@@ -207,7 +202,7 @@ function getEmployees() {
             </td>
           </tr>
   `;
-  const employees = state.employees.reduce((acc, employee) => {
+  const employees = realStateData?.employees.reduce((acc, employee) => {
     const {id, name, surname, job, salary, date} = employee;
     let temp = `
       <tr id="${id}" class="employee__position">
@@ -230,7 +225,7 @@ function getEmployees() {
     `;
     return acc + temp;
   }, "");
-  tBody.innerHTML = employees.length ? employees : emptyEmployeesTemplate;
+  tBody.innerHTML = employees?.length ? employees : emptyEmployeesTemplate;
   document.querySelectorAll(`.employee__actions_remove`)
     .forEach(btn => removeEmployeePosition(btn));
   tBody.querySelectorAll('.employee__position')
@@ -241,7 +236,7 @@ function getEmployees() {
 
 function addJobSelection(selectedJob) {
   let template = `<select class="employee-job-selection">`;
-  template += JOB_POSITIONS.reduce((acc, job) => {
+  template += VARIABLES.JOB_POSITIONS.reduce((acc, job) => {
     acc += `<option value="${job}" ${job === selectedJob ? 'selected' : ''}>${job}</option>`;
     return acc;
   }, '');
@@ -275,18 +270,18 @@ function removeEmployeePosition(currentElement) {
     buttons: [
       {
         id: 'md-cancel',
-        btnColor: MODAL_BUTTONS_COLOR.Gray,
+        btnColor: VARIABLES.MODAL_BUTTONS_COLOR.Gray,
         btnName: 'Cancel',
       },
       {
         id: 'md-rem',
-        btnColor: MODAL_BUTTONS_COLOR.Red,
+        btnColor: VARIABLES.MODAL_BUTTONS_COLOR.Red,
         btnName: 'Remove',
         fn: () => {
           saveState({
             [typeClass + 's']: state[typeClass + 's'].filter(item => item.id !== parentElementId.id)
           });
-          render(RENDER_TYPES[typeClass + 's']);
+          render(VARIABLES.RENDER_TYPES[typeClass + 's']);
         }
       }
     ]
@@ -298,24 +293,24 @@ function removeEmployeePosition(currentElement) {
 
 
 /*********** TODO: RENDER ***********/
-function render(section = RENDER_TYPES.All) {
+function render(section = VARIABLES.RENDER_TYPES.All) {
   state = {
     ...state,
     ...loadState()
   };
-  if (section === RENDER_TYPES.Header || section === RENDER_TYPES.All) {
+  if (section === VARIABLES.RENDER_TYPES.Header || section === VARIABLES.RENDER_TYPES.All) {
     updateHeader();
   }
-  if (section === RENDER_TYPES.OpenPage || section === RENDER_TYPES.All) {
+  if (section === VARIABLES.RENDER_TYPES.OpenPage || section === VARIABLES.RENDER_TYPES.All) {
     openPage();
   }
-  if (section === RENDER_TYPES.Projects || section === RENDER_TYPES.All) {
+  if (section === VARIABLES.RENDER_TYPES.Projects || section === VARIABLES.RENDER_TYPES.All) {
     getProjects();
   }
-  if (section === RENDER_TYPES.Employees || section === RENDER_TYPES.All) {
+  if (section === VARIABLES.RENDER_TYPES.Employees || section === VARIABLES.RENDER_TYPES.All) {
     getEmployees();
   }
-  if (section === RENDER_TYPES.DashboardInfo || section === RENDER_TYPES.All) {
+  if (section === VARIABLES.RENDER_TYPES.DashboardInfo || section === VARIABLES.RENDER_TYPES.All) {
     updateDashboardInfo();
   }
 
@@ -324,10 +319,6 @@ function render(section = RENDER_TYPES.All) {
 export {
   state,
   render,
-  saveState,
-  RENDER_TYPES,
-  monthes,
-  TYPE_OF_WINDOW,
-  JOB_POSITIONS
+  saveState
 };
 
